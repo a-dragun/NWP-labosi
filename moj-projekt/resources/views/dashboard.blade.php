@@ -13,5 +13,8 @@
                 </div>
             </div>
         </div>
+        <a href="{{ route('projects.index') }}">
+                    Rad s projektima
+        </a>
     </div>
 </x-app-layout>

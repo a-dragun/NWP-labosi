@@ -9,7 +9,9 @@
     <h2 class="text-xl font-semibold mb-2">Projekti gdje ste voditelj:</h2>
     <ul>
         @forelse($ownedProjects as $project)
-            <li>{{ $project->naziv_projekta }}</li>
+            <li><a href="{{ route('projects.edit', $project) }}" class="text-blue-600 hover:underline">
+                {{ $project->naziv_projekta }}
+            </a></li>
         @empty
             <li>Niste voditelj nijednog projekta.</li>
         @endforelse
@@ -18,12 +20,14 @@
     <h2 class="text-xl font-semibold mt-6 mb-2">Projekti gdje ste član:</h2>
     <ul>
         @forelse($memberProjects as $project)
-            <li>{{ $project->naziv_projekta }}</li>
+            <li><a href="{{ route('projects.edit', $project) }}" class="text-blue-600 hover:underline">
+                {{ $project->naziv_projekta }}
+            </a></li>
         @empty
             <li>Niste član nijednog projekta.</li>
         @endforelse
     </ul>
-    
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
