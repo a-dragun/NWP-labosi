@@ -26,7 +26,7 @@
                             <option value="nastavnik" @selected($user->role=='nastavnik')>Nastavnik</option>
                             <option value="student" @selected($user->role=='student')>Student</option>
                         </select>
-                        <button class="bg-blue-500 text-white px-3 py-1 rounded ml-2">Spremi</button>
+                        <button class="bg-blue-500 text-black px-3 py-1 rounded ml-2">Spremi</button>
                     </form>
                 </td>
             </tr>
