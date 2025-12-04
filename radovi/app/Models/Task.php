@@ -14,9 +14,17 @@ class Task extends Model
         'description',
         'study_type',
     ];
-    
+
     public function teacher()
     {
         return $this->belongsTo(User::class, 'teacher_id');
     }
+
+    public function students()
+    {
+        return $this->belongsToMany(User::class, 'task_student', 'task_id', 'student_id')
+                    ->withPivot('accepted', 'priority')
+                    ->withTimestamps();
+    }
+
 }
