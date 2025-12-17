@@ -28,13 +28,18 @@ router.get('/:id/edit', async (req, res) => {
 
 router.post('/:id', async (req, res) => {
   try {
-    await Project.findByIdAndUpdate(req.params.id, req.body, { runValidators: true });
+    const { teamMembers, ...rest } = req.body;
+    if (teamMembers) {
+      rest.teamMembers = teamMembers.split(',').map(m => m.trim()).filter(m => m !== '');
+    }
+    await Project.findByIdAndUpdate(req.params.id, rest, { runValidators: true });
     res.redirect('/projects');
   } catch(err) {
     const project = await Project.findById(req.params.id);
     res.render('projects/edit', { project, error: err.message });
   }
 });
+
 
 router.post('/:id/delete', async (req, res) => {
   try {
