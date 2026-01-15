@@ -1,0 +1,27 @@
+<%- include('../partials/header', { title: 'Projects' }) %>
+
+<a href="/projects/create" class="btn btn-primary">Create Project</a>
+
+<h1>Projects</h1>
+
+<div>
+  <% projects.forEach(project => { %>
+    <div class="project-card">
+        <h2><%= project.name %></h2>
+        <p><strong>Description:</strong> <%= project.description %></p>
+        <p><strong>Price:</strong> $<%= project.price %></p>
+        <p><strong>Completed Work:</strong> <%= project.completedWork %></p>
+        <p><strong>Start:</strong> <%= project.startDate ? project.startDate.toISOString().split('T')[0] : '' %></p>
+        <p><strong>End:</strong> <%= project.endDate ? project.endDate.toISOString().split('T')[0] : '' %></p>
+        <p><strong>Team:</strong> <%= project.teamMembers.join(', ') %></p>
+
+        <div>
+            <a href="/projects/<%= project._id %>/edit" class="btn btn-edit">Edit</a>
+            <form action="/projects/<%= project._id %>/delete" method="POST" style="display:inline;">
+            <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure?');">Delete</button>
+            </form>
+        </div>
+    </div>
+
+  <% }) %>
+</div>

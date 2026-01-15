@@ -1,0 +1,28 @@
+<%- include('../partials/header', { title: 'Edit Project' }) %>
+
+<h1>Edit Project</h1>
+
+<form action="/projects/<%= project._id %>" method="POST" class="form-container">
+  <label>Project Name:</label>
+  <input type="text" name="name" value="<%= project.name %>" required>
+
+  <label>Description:</label>
+  <textarea name="description"><%= project.description %></textarea>
+
+  <label>Price:</label>
+  <input type="number" name="price" value="<%= project.price %>">
+
+  <label>Completed Work:</label>
+  <textarea name="completedWork"><%= project.completedWork %></textarea>
+
+  <label>Start Date:</label>
+  <input type="date" name="startDate" value="<%= project.startDate?.toISOString().split('T')[0] %>">
+
+  <label>End Date:</label>
+  <input type="date" name="endDate" value="<%= project.endDate?.toISOString().split('T')[0] %>">
+
+  <label>Team Members (comma separated):</label>
+  <input type="text" name="teamMembers" value="<%= project.teamMembers.join(', ') %>">
+
+  <button type="submit" class="btn btn-primary">Save</button>
+</form>

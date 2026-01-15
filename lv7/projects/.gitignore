@@ -1,0 +1,55 @@
+# Node modules
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Environment variables
+.env
+.env.*.local
+
+# Coverage
+coverage/
+*.lcov
+
+# Build / dist
+dist/
+build/
+tmp/
+temp/
+
+# Cache
+.cache/
+.nyc_output/
+.eslintcache/
+.parcel-cache/
+vite-cache/
+
+# TypeScript
+*.tsbuildinfo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Optional: Ignore local SSL keys
+ssl/
+*.pem
+*.key

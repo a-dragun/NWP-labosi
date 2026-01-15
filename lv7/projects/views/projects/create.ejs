@@ -1,0 +1,25 @@
+<%- include('../partials/header', { title: 'Create Project' }) %>
+
+<h1>Create Project</h1>
+
+<form action="/projects" method="POST" class="form-container">
+  <label>Project Name:</label>
+  <input type="text" name="name" placeholder="Project Name" required>
+
+  <label>Description:</label>
+  <textarea name="description" placeholder="Description"></textarea>
+
+  <label>Price:</label>
+  <input type="number" name="price" placeholder="Price">
+
+  <label>Completed Work:</label>
+  <textarea name="completedWork" placeholder="Completed Work"></textarea>
+
+  <label>Start Date:</label>
+  <input type="date" name="startDate">
+
+  <label>End Date:</label>
+  <input type="date" name="endDate">
+
+  <button type="submit" class="btn btn-primary">Create</button>
+</form>
