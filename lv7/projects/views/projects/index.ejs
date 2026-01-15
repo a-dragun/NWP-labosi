@@ -1,9 +1,8 @@
 <%- include('../partials/header', { title: 'Projects' }) %>
 
-<a href="/projects/create" class="btn btn-primary">Create Project</a>
-
 <h1>Projects</h1>
 
+<a href="/projects/create" class="btn btn-primary">Create Project</a>
 <div>
   <% projects.forEach(project => { %>
     <div class="project-card">
@@ -13,7 +12,14 @@
         <p><strong>Completed Work:</strong> <%= project.completedWork %></p>
         <p><strong>Start:</strong> <%= project.startDate ? project.startDate.toISOString().split('T')[0] : '' %></p>
         <p><strong>End:</strong> <%= project.endDate ? project.endDate.toISOString().split('T')[0] : '' %></p>
-        <p><strong>Team:</strong> <%= project.teamMembers.join(', ') %></p>
+        <p><strong>Owner:</strong> <%= project.owner.username %></p>
+        <p><strong>Team:</strong> 
+          <% if (project.teamMembers.length === 0) { %>
+            None
+          <% } else { %>
+            <%= project.teamMembers.map(u => u.username).join(', ') %>
+          <% } %>
+        </p>
 
         <div>
             <a href="/projects/<%= project._id %>/edit" class="btn btn-edit">Edit</a>

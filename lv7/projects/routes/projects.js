@@ -1,27 +1,43 @@
 const express = require('express');
 const router = express.Router();
 const Project = require('../models/Project');
+const User = require('../models/User');
 const isAuth = require('../middleware/auth');
 
 router.get('/', isAuth, async (req, res) => {
-  const projects = await Project.find();
+  const projects = await Project.find().populate('owner').populate('teamMembers');
   res.render('projects/index', { projects });
 });
 
-router.get('/create', isAuth, (req, res) => {
-  res.render('projects/create');
+router.get('/create', isAuth, async (req, res) => {
+  let users = await User.find();
+  const currentUserId = req.session.userId.toString();
+  users = users.filter(u => u._id.toString() !== currentUserId);
+  res.render('projects/create', { users });
 });
 
 router.post('/', isAuth, async (req, res) => {
-  await Project.create(req.body);
-  res.redirect('/projects');
+  try {
+    const { teamMembers, ...rest } = req.body;
+    let members = [];
+    if (teamMembers) {
+      members = Array.isArray(teamMembers) ? teamMembers : [teamMembers];
+    }
+    await Project.create({ ...rest, owner: req.session.userId, teamMembers: members });
+    res.redirect('/projects');
+  } catch(err) {
+    res.status(500).send(err.message);
+  }
 });
 
 router.get('/:id/edit', isAuth, async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
     if (!project) return res.status(404).send('Project not found');
-    res.render('projects/edit', { project });
+    let users = await User.find();
+    const currentUserId = req.session.userId.toString();
+    users = users.filter(u => u._id.toString() !== currentUserId);
+    res.render('projects/edit', { project, users });
   } catch(err) {
     res.status(500).send(err.message);
   }
@@ -29,15 +45,24 @@ router.get('/:id/edit', isAuth, async (req, res) => {
 
 router.post('/:id', isAuth, async (req, res) => {
   try {
-    const { teamMembers, ...rest } = req.body;
+    const { teamMembers, archived, ...rest } = req.body;
+    let members = [];
     if (teamMembers) {
-      rest.teamMembers = teamMembers.split(',').map(m => m.trim()).filter(m => m !== '');
+      members = Array.isArray(teamMembers) ? teamMembers : [teamMembers];
     }
-    await Project.findByIdAndUpdate(req.params.id, rest, { runValidators: true });
+
+    const isArchived = archived === 'true';
+
+    await Project.findByIdAndUpdate(
+      req.params.id,
+      { ...rest, teamMembers: members, archived: isArchived },
+      { runValidators: true }
+    );
     res.redirect('/projects');
   } catch(err) {
     const project = await Project.findById(req.params.id);
-    res.render('projects/edit', { project, error: err.message });
+    let users = await User.find();
+    res.render('projects/edit', { project, users, error: err.message });
   }
 });
 

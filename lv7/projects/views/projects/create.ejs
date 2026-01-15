@@ -21,5 +21,14 @@
   <label>End Date:</label>
   <input type="date" name="endDate">
 
+  <label>Team Members:</label>
+  <select name="teamMembers" multiple size="5">
+    <% users.forEach(user => { %>
+      <option value="<%= user._id %>"><%= user.username %></option>
+    <% }) %>
+  </select>
+
+
+  <br>
   <button type="submit" class="btn btn-primary">Create</button>
 </form>

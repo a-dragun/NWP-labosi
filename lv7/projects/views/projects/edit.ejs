@@ -1,8 +1,8 @@
 <%- include('../partials/header', { title: 'Edit Project' }) %>
 
-<h1>Edit Project</h1>
+<h1 style="text-align:center;">Edit Project</h1>
 
-<form action="/projects/<%= project._id %>" method="POST" class="form-container">
+<form action="/projects/<%= project._id %>" method="POST" class="project-form">
   <label>Project Name:</label>
   <input type="text" name="name" value="<%= project.name %>" required>
 
@@ -21,8 +21,21 @@
   <label>End Date:</label>
   <input type="date" name="endDate" value="<%= project.endDate?.toISOString().split('T')[0] %>">
 
-  <label>Team Members (comma separated):</label>
-  <input type="text" name="teamMembers" value="<%= project.teamMembers.join(', ') %>">
+  <label>Team Members:</label>
+  <select name="teamMembers" multiple size="5">
+    <% users.forEach(user => { %>
+      <option value="<%= user._id %>" <%= project.teamMembers.some(u => u._id.toString() === user._id.toString()) ? 'selected' : '' %>>
+        <%= user.username %>
+      </option>
+    <% }) %>
+  </select>
+  <br>
+
+  <label style="margin-top:10px;">
+    <input type="checkbox" name="archived" value="true" <%= project.archived ? 'checked' : '' %> >
+    Archived
+  </label>
+  <br>
 
   <button type="submit" class="btn btn-primary">Save</button>
 </form>

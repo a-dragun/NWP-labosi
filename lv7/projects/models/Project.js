@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const User = require('./User');
 
 const ProjectSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -24,7 +25,9 @@ const ProjectSchema = new mongoose.Schema({
       message: 'End date cannot be before start date'
     }
   },
-  teamMembers: [String]
+  teamMembers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  archived: { type: Boolean, default: false }
 });
 
 
