@@ -1,0 +1,18 @@
+<%- include('../partials/header', { title: 'Archived Projects' }) %>
+
+<h1>Arhivirani projekti</h1>
+
+<div>
+  <% archivedProjects.forEach(project => { %>
+    <div class="project-card">
+      <h2><%= project.name %></h2>
+      <p><strong>Opis:</strong> <%= project.description %></p>
+      <p><strong>Cijena:</strong> $<%= project.price %></p>
+      <p><strong>Obavljeni poslovi:</strong> <%= project.completedWork %></p>
+      <p><strong>Početak:</strong> <%= project.startDate ? project.startDate.toISOString().split('T')[0] : '' %></p>
+      <p><strong>Završetak:</strong> <%= project.endDate ? project.endDate.toISOString().split('T')[0] : '' %></p>
+      <p><strong>Tim:</strong> <%= project.teamMembers.map(u => u.username).join(', ') %></p>
+      <p><strong>Vlasnik:</strong> <%= project.owner.username %></p>
+    </div>
+  <% }) %>
+</div>

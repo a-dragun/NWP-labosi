@@ -78,4 +78,18 @@ router.post('/:id/delete', isAuth, async (req, res) => {
   res.redirect('/projects');
 });
 
+router.get('/archive', isAuth, async (req, res) => {
+  const userId = req.session.userId;
+  const archivedProjects = await Project.find({
+    archived: true,
+    $or: [
+      { owner: userId },
+      { teamMembers: userId }
+    ]
+  }).populate('owner').populate('teamMembers');
+
+  res.render('projects/archive', { archivedProjects });
+});
+
+
 module.exports = router;
